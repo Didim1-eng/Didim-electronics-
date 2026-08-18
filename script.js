@@ -1,0 +1,12 @@
+const WA="2347037354779";const products=[
+{id:1,n:"HY320 Mini Smart Projector",p:115000,imgs:["images/hy320-1.jpg","images/hy320-2.jpg","images/hy320-3.jpg","images/hy320-4.jpg"]},
+{id:2,n:"Mini LED Projector",p:30000,imgs:["images/mini-led-projector.jpg"]}];
+let cart=JSON.parse(localStorage.didimCart||"[]");const money=n=>"₦"+n.toLocaleString("en-NG");
+function render(){let q=document.getElementById("search").value.toLowerCase();document.getElementById("grid").innerHTML=products.filter(x=>x.n.toLowerCase().includes(q)).map(x=>`<article class="card"><img id="m${x.id}" src="${x.imgs[0]}"><div class="thumbs">${x.imgs.map(i=>`<img src="${i}" onclick="m${x.id}.src='${i}'">`).join("")}</div><div class="body"><h3>${x.n}</h3><p>Quality projector with accessories shown in the photos.</p><div class="price">${money(x.p)}</div><button class="add" onclick="add(${x.id})">ADD TO CART</button></div></article>`).join("");draw()}
+function add(id){let x=cart.find(a=>a.id==id);if(x)x.q++;else cart.push({id,q:1});save();cartOpen(true)}
+function save(){localStorage.didimCart=JSON.stringify(cart);draw()}
+function draw(){document.getElementById("count").textContent=cart.reduce((a,x)=>a+x.q,0);document.getElementById("items").innerHTML=cart.length?cart.map(x=>{let p=products.find(a=>a.id==x.id);return `<div class="item"><img src="${p.imgs[0]}"><div>${p.n}<br>${money(p.p)} × ${x.q}<br><button onclick="del(${x.id})">Remove</button></div></div>`}).join(""):"<p>Your cart is empty.</p>";document.getElementById("total").textContent=money(cart.reduce((a,x)=>a+products.find(p=>p.id==x.id).p*x.q,0))}
+function del(id){cart=cart.filter(x=>x.id!=id);save()}
+function cartOpen(force){document.getElementById("cart").classList.toggle("open",force===true?!document.getElementById("cart").classList.contains("open"):!document.getElementById("cart").classList.contains("open"))}
+function checkout(){if(!cart.length)return alert("Your cart is empty.");let lines=cart.map(x=>{let p=products.find(a=>a.id==x.id);return `• ${p.n} × ${x.q} = ${money(p.p*x.q)}`}).join("\n");let total=money(cart.reduce((a,x)=>a+products.find(p=>p.id==x.id).p*x.q,0));location.href=`https://wa.me/${WA}?text=${encodeURIComponent("Hello Didim Electronics, I want to order:\n\n"+lines+"\n\nTotal: "+total+"\n\nPlease confirm delivery details.")}`}
+document.getElementById("wa").href="https://wa.me/"+WA;render();
