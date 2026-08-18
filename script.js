@@ -1,6 +1,6 @@
 const WA="2347037354779";const products=[
 {id:1,n:"HY320 Mini Smart Projector",p:115000,imgs:["images/hy320-1.jpg","images/hy320-2.jpg","images/hy320-3.jpg","images/hy320-4.jpg"]},
-{id:2,n:"Mini LED Projector",p:30000,imgs:["images/mini-led-projector.jpg"]}];
+{id:2,n:"Mini LED Projector",p:38000,imgs:["images/mini-led-projector.jpg"]}];
 let cart=JSON.parse(localStorage.didimCart||"[]");const money=n=>"₦"+n.toLocaleString("en-NG");
 function render(){let q=document.getElementById("search").value.toLowerCase();document.getElementById("grid").innerHTML=products.filter(x=>x.n.toLowerCase().includes(q)).map(x=>`<article class="card"><img id="m${x.id}" src="${x.imgs[0]}"><div class="thumbs">${x.imgs.map(i=>`<img src="${i}" onclick="m${x.id}.src='${i}'">`).join("")}</div><div class="body"><h3>${x.n}</h3><p>Quality projector with accessories shown in the photos.</p><div class="price">${money(x.p)}</div><button class="add" onclick="add(${x.id})">ADD TO CART</button></div></article>`).join("");draw()}
 function add(id){let x=cart.find(a=>a.id==id);if(x)x.q++;else cart.push({id,q:1});save();cartOpen(true)}
