@@ -10,3 +10,10 @@ function del(id){cart=cart.filter(x=>x.id!=id);save()}
 function cartOpen(force){document.getElementById("cart").classList.toggle("open",force===true?!document.getElementById("cart").classList.contains("open"):!document.getElementById("cart").classList.contains("open"))}
 function checkout(){if(!cart.length)return alert("Your cart is empty.");let lines=cart.map(x=>{let p=products.find(a=>a.id==x.id);return `• ${p.n} × ${x.q} = ${money(p.p*x.q)}`}).join("\n");let total=money(cart.reduce((a,x)=>a+products.find(p=>p.id==x.id).p*x.q,0));location.href=`https://wa.me/${WA}?text=${encodeURIComponent("Hello Didim Electronics, I want to order:\n\n"+lines+"\n\nTotal: "+total+"\n\nPlease confirm delivery details.")}`}
 document.getElementById("wa").href="https://wa.me/"+WA;render();
+function showPayment(){
+  document.getElementById("paymentModal").classList.add("open");
+}
+
+function closePayment(){
+  document.getElementById("paymentModal").classList.remove("open");
+}
